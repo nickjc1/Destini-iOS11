@@ -35,29 +35,94 @@ class ViewController: UIViewController {
     @IBOutlet weak var storyTextView: UILabel!
     
     // TODO Step 5: Initialise instance variables here
+    var storyIndex : Int = 0;
     
+    @IBOutlet weak var restartButton: UIButton!
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         // TODO Step 3: Set the text for the storyTextView, topButton, bottomButton, and to T1_Story, T1_Ans1, and T1_Ans2
+        startOver()
         
     }
 
     
     // User presses one of the buttons
     @IBAction func buttonPressed(_ sender: UIButton) {
-    
         // TODO Step 4: Write an IF-Statement to update the views
-                
-        // TODO Step 6: Modify the IF-Statement to complete the story
+        let tag = sender.tag
+        switch storyIndex {
+        case 1:
+            if tag == 1{
+                storyUpdate(story: story3, answerA: answer3a, answerB: answer3b)
+                storyIndex = 3
+            }else {
+                storyUpdate(story: story2, answerA: answer2a, answerB: answer2b)
+                storyIndex = 2
+            }
+            break
+        case 2:
+            if tag == 1{
+                storyUpdate(story: story3, answerA: answer3a, answerB: answer3b)
+                storyIndex = 3
+            }else{
+                storyUpdate(story: story4, answerA: "", answerB: "")
+                storyIndex = 4
+                restartButton.isHidden = false
+            }
+            break
+        case 3:
+            if tag == 1{
+                storyUpdate(story: story6, answerA: "", answerB: "")
+                storyIndex = 6
+                restartButton.isHidden = false
+            }else{
+                storyUpdate(story: story5, answerA: "", answerB: "")
+                storyIndex = 5
+                restartButton.isHidden = false
+            }
+            break
+        default:
+            break
+        }
         
-    
+//        if storyIndex > 3{
+//            let alert = UIAlertController(title: "Awesome", message: "What a Story! Do you want to start again?", preferredStyle: .actionSheet)
+//            let action = UIAlertAction(title: "Restart", style: .default, handler: {(UIAlertAction) in self.startOver()})
+//            alert.addAction(action)
+//            present(alert, animated: true, completion: nil)
+//        }
+    }
+    @IBAction func RestartPressed(_ sender: UIButton) {
+        
+        startOver()
+        
     }
     
+    func storyUpdate(story: String, answerA: String, answerB: String) {
+        
+        storyTextView.text = story
+        if answerA == "" && answerB == "" {
+            topButton.isHidden = true
+            bottomButton.isHidden = true
+            
+        }else {
+            topButton.setTitle(answerA, for: .normal)
+            bottomButton.setTitle(answerB, for: .normal)
+        }
+        
+    }
+    
+    func startOver(){
+        storyIndex = 1
+        topButton.isHidden = false
+        bottomButton.isHidden = false
+        restartButton.isHidden = true
+        storyUpdate(story: story1, answerA: answer1a, answerB: answer1b)
+    }
 
 
 
